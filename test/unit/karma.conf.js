@@ -20,7 +20,10 @@ module.exports = function (config) {
     },
     webpack: webpackConfig,
     webpackMiddleware: {
-      noInfo: true
+      noInfo: true,
+      watchOptions: {
+        poll: 1000
+      }
     },
     coverageReporter: {
       dir: './coverage',
