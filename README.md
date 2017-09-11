@@ -1,4 +1,4 @@
-# vue-switcher
+# switchboard-client
 
 > A switchboard app
 

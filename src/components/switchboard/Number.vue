@@ -1,6 +1,7 @@
 <template>
   <div class="number">
-    <h1>{{ title }}</h1>
+    <h1 v-if="phone_number">Update switchboard number {{ phone_number }}</h1>
+    <h1 v-else>Add a number to switchboard</h1>
     <div class="form">
       <form action="/" method="post">
         <div>
@@ -60,6 +61,7 @@
           <label for="sunday"><input type="checkbox" id="sunday" v-model="entity.days"/>Sunday</label>
         </div>
         <button type="submit">Save</button>
+        <button type="button" v-on:click="goToHome">Cancel</button>
       </form>
     </div>
   </div>
@@ -75,8 +77,9 @@
       }
     },
     data () {
-      this.phone_number = this.phone_number || ''
+      console.log(this.phone_number)
       return {
+        title: '',
         entity: {
           phone_number: '',
           password: '',
@@ -91,11 +94,36 @@
         }
       }
     },
-    mounted: function () {
-      console.log(this.entity)
-      if (this.phone_number) {
-        this.$http.get(`/number/${this.phone_number}`)
+    methods: {
+      goToHome: function () {
+        this.$router.push({name: 'number.index'})
+      },
+      get: function (phoneNumber) {
+        this.loading = true
+        this.$http.get(`/number/${phoneNumber}`).then(data => {
+          this.loading = false
+          this.entity = data
+        }).catch(error => {
+          this.loading = false
+          console.log(error)
+          this.entity = {
+            phone_number: '+34343434',
+            password: '',
+            confirm_password: '',
+            name: 'Sarah howell',
+            can_manage_switchboard: true,
+            timezone: 'Europe/London',
+            schedule: '1',
+            days: [],
+            start_time: '09:00',
+            end_time: '18:00'
+          }
+        })
       }
+    },
+    mounted: function () {
+      console.log(this.phone_number)
+      this.phone_number && this.get(this.phone_number)
     }
   }
 </script>

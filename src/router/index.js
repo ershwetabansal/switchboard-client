@@ -9,13 +9,14 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'number.index',
       component: Home
     },
     {
       path: '/number/:phone_number',
       name: 'number.edit',
-      component: Number
+      component: Number,
+      props: true
     },
     {
       path: '/number/create',
