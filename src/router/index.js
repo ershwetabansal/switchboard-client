@@ -19,7 +19,7 @@ export default new Router({
       props: true
     },
     {
-      path: '/number/create',
+      path: '/number',
       name: 'number.create',
       component: Number
     }

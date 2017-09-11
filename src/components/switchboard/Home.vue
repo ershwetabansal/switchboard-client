@@ -7,7 +7,7 @@
     <p v-if="errorMessage" class="alert">{{ errorMessage }}</p>
     <ul>
       <li v-for="entity in entities" v-on:click="update(entity.phone_number)">
-        <span :class="entity.status" class="status" v-on:click="signInOut"></span>
+        <span :class="entity.status" class="status" v-on:click.stop.prevent="signInOut"></span>
         <span>{{ entity.name }}</span>
         <span>{{ entity.phone_number }}</span>
       </li>
@@ -28,7 +28,7 @@
     methods: {
       list: function () {
         this.loading = true
-        this.$http.get('/numbers').then(response => {
+        this.$http.get('/number').then(response => {
           this.entities = response
           this.loading = false
         }).catch(error => {
@@ -68,7 +68,15 @@
         })
       },
       signInOut: function () {
+        if (confirm('Are you sure you want to sign in?') === true) {
+          this.$http.post('/signin')
+            .then(() => {
 
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
       }
     },
     created () {
