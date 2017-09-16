@@ -1,34 +1,35 @@
 import * as types from '../mutation-types'
+import axios from 'axios'
 
 // initial state
 const state = {
   numbers: [],
   failureMessage: '',
-  successMessage: '',
+  successMessage: ''
 }
 
 // getters
 const getters = {
-  allNumbers: state => state.numbers,
+  allNumbers: state => state.numbers
 }
 
 // actions
 const actions = {
   getAllNumbers ({ commit }) {
     commit(types.GET_NUMBERS_REQUEST)
-    this.$http.get('api/number')
+    axios.get('api/number')
       .then(numbers => commit(types.GET_NUMBERS_SUCCESS, numbers))
       .then(error => commit(types.GET_NUMBERS_FAILURE, error))
   },
   addNumber ({ commit }, number) {
     commit(types.ADD_NUMBER_REQUEST)
-    this.$http.post('api/number', number)
+    axios.post('api/number', number)
       .then(() => commit(types.ADD_NUMBER_SUCCESS, number))
       .catch(() => commit(types.ADD_NUMBER_FAILURE))
   },
   changePriority ({ commit }, numbers) {
     commit(types.CHANGE_PRIORITY_REQUEST)
-    this.$http.post('api/number/priority', numbers)
+    axios.post('api/number/priority', numbers)
       .then(() => commit(types.CHANGE_PRIORITY_SUCCESS))
       .catch(() => commit(types.CHANGE_PRIORITY_FAILURE))
   }
@@ -56,7 +57,7 @@ const mutations = {
   },
   [types.ADD_NUMBER_FAILURE] (state) {
     state.failureMessage = 'Failed to add new number.'
-  },
+  }
 }
 
 export default {

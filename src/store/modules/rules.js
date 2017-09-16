@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import axios from 'axios'
 
 const state = {
   successMessage: '',
@@ -13,15 +14,15 @@ const getters = {
 
 // actions
 const actions = {
-  getAllRules({ commit }) {
+  getAllRules ({ commit }) {
     commit(types.GET_ALL_RULES_REQUEST)
-    this.$http.get('api/rule')
+    axios.get('api/rule')
       .then(rules => commit(types.GET_ALL_RULES_SUCCESS, rules))
       .catch(error => commit(types.GET_ALL_RULES_FAILURE, error))
   },
   addRule ({ commit }, message) {
     commit(types.ADD_RULE_REQUEST)
-    this.$http.post('api/rule', message)
+    axios.post('api/rule', message)
       .then(() => commit(types.ADD_RULE_SUCCESS))
       .catch(error => commit(types.ADD_RULE_FAILURE, error))
   }

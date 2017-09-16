@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import axios from 'axios'
 
 const state = {
   successMessage: '',
@@ -13,15 +14,15 @@ const getters = {
 
 // actions
 const actions = {
-  getAllMessages({ commit }) {
+  getAllMessages ({ commit }) {
     commit(types.GET_ALL_MESSAGES_REQUEST)
-    this.$http.get('api/message')
+    axios.get('api/message')
       .then(messages => commit(types.GET_ALL_MESSAGES_SUCCESS, messages))
       .catch(error => commit(types.GET_ALL_MESSAGES_FAILURE, error))
   },
   addMessage ({ commit }, message) {
     commit(types.ADD_MESSAGE_REQUEST)
-    this.$http.post('api/message', message)
+    axios.post('api/message', message)
       .then(() => commit(types.ADD_MESSAGE_SUCCESS))
       .catch(error => commit(types.ADD_MESSAGE_FAILURE, error))
   }

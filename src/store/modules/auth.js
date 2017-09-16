@@ -1,4 +1,5 @@
 import * as types from '../mutation-types'
+import axios from 'axios'
 
 const state = {
   name: '',
@@ -6,7 +7,7 @@ const state = {
   canManageNumbers: false,
   canManageMessages: false,
   canOverrideSingIn: false,
-  canChangePriority: false,
+  canChangePriority: false
 }
 
 // getters
@@ -16,20 +17,20 @@ const getters = {
   canManageNumbers: state => state.canManageNumbers,
   canManageMessages: state => state.canManageMessages,
   canOverrideSingIn: state => state.canOverrideSingIn,
-  canChangePriority: state => state.canChangePriority,
+  canChangePriority: state => state.canChangePriority
 }
 
 // actions
 const actions = {
   whoAmI ({ commit }) {
     commit(types.WHO_AM_I_REQUEST)
-    this.$http.get('api/me')
+    axios.get('api/me')
       .then(info => commit(types.WHO_AM_I_SUCCESS, info))
       .catch(error => commit(types.WHO_AM_I_FAILURE, error))
   },
   changeSignInStatus ({ commit }, signIn = true) {
     commit(types.SIGNIN_REQUEST)
-    this.$http.post('api/signIn', { signIn })
+    axios.post('api/signIn', { signIn })
       .then(info => commit(types.SIGNIN_SUCCESS, info))
       .catch(error => commit(types.SIGNIN_FAILURE, error))
   }
