@@ -27,6 +27,12 @@ const actions = {
       .then(() => commit(types.ADD_NUMBER_SUCCESS, number))
       .catch(() => commit(types.ADD_NUMBER_FAILURE))
   },
+  updateNumber ({ commit }, number) {
+    commit(types.UPDATE_NUMBER_REQUEST)
+    axios.post(`api/number/${number.phone_number}`, number)
+      .then(() => commit(types.UPDATE_NUMBER_SUCCESS, number))
+      .catch(() => commit(types.UPDATE_NUMBER_FAILURE))
+  },
   changePriority ({ commit }, numbers) {
     commit(types.CHANGE_PRIORITY_REQUEST)
     axios.post('api/number/priority', numbers)
@@ -57,6 +63,18 @@ const mutations = {
   },
   [types.ADD_NUMBER_FAILURE] (state) {
     state.failureMessage = 'Failed to add new number.'
+  },
+  [types.UPDATE_NUMBER_REQUEST] (state) {
+    state.failureMessage = ''
+    state.successMessage = ''
+  },
+  [types.UPDATE_NUMBER_SUCCESS] (state, updatedNumber) {
+    state.successMessage = `${updatedNumber.phone_number} has been updated successfully.`
+    const index = state.numbers.findIndex(number => number.phone_number === updatedNumber.phone_number)
+    state.numbers[index] = updatedNumber
+  },
+  [types.UPDATE_NUMBER_FAILURE] (state) {
+    state.failureMessage = 'Failed to UPDATE new number.'
   }
 }
 

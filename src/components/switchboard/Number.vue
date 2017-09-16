@@ -3,7 +3,7 @@
     <h1 v-if="phone_number">Update switchboard number {{ phone_number }}</h1>
     <h1 v-else>Add a number to switchboard</h1>
     <div class="form">
-      <form v-on:submit="addUpdate">
+      <form v-on:submit="saveChanges">
         <div>
           <label for="phone_number">Phone number</label>
           <input type="text" id="phone_number" v-model="number.phone_number"/>
@@ -58,6 +58,7 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
   export default {
     name: 'number',
     props: {
@@ -67,68 +68,43 @@
       }
     },
     data () {
-      console.log(this.phone_number)
       return {
-        title: '',
         number: {
           phone_number: '',
           password: '',
           confirm_password: '',
           name: '',
-          can_manage_switchboard: false,
           timezone: 'Europe/London',
-          schedule: '1',
-          days: [],
           start_time: '09:00',
           end_time: '18:00'
         }
       }
     },
-    methods: {
-      goToHome: function () {
-        this.$router.push({name: 'number.index'})
-      },
-      get: function (phoneNumber) {
-        this.loading = true
-        this.$http.get(`/number/${phoneNumber}`).then(data => {
-          this.loading = false
-          this.number = data
-        }).catch(error => {
-          this.loading = false
-          console.log(error)
-          this.number = {
-            phone_number: '+34343434',
-            password: '',
-            confirm_password: '',
-            name: 'Sarah howell',
-            can_manage_switchboard: true,
-            timezone: 'Europe/London',
-            schedule: '1',
-            days: [],
-            start_time: '09:00',
-            end_time: '18:00'
-          }
-        })
-      },
-      addUpdate: function () {
-        if (this.phone_number) {
-          this.$http.post(`/number/${this.phone_number}`, this.number)
-            .then(() => this.goToHome())
-            .catch(error => {
-              console.log(error)
-            })
-          return
-        }
-        this.$http.post('/number', this.number)
-          .then(() => this.goToHome())
-          .catch(error => {
-            console.log(error)
-          })
+    computed: {
+      ...mapGetters({
+        numbers: 'allNumbers'
+      }),
+      getNumberDetails: (phoneNumber) => {
+        const filteredNumbers = this.numbers.filter(number => number.phone_number === phoneNumber)
+        return filteredNumbers.length === 1 ? filteredNumbers[0] : null
       }
     },
-    mounted: function () {
-      console.log(this.phone_number)
-      this.phone_number && this.get(this.phone_number)
+    methods: {
+      saveChanges: function () {
+        if (this.phone_number) {
+          return this.$store.dispatch('updateNumber').then(this.goToHome)
+        }
+        this.$store.dispatch('addNumber').then(this.goToHome)
+      },
+      goToHome: function () {
+        this.$router.push({name: 'number.index'})
+      }
+    },
+    created: function () {
+      if (!this.phone_number) {
+        return
+      }
+      this.phone_number = this.getNumberDetails(this.phone_number)
     }
   }
 </script>
