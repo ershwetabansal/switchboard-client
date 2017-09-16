@@ -1,9 +1,6 @@
 <template>
   <div class="home">
-    <h1>
-      Switchboard
-      <button class="pull-right" v-on:click="create">Add a number</button>
-    </h1>
+    <button class="pull-right" v-on:click="create">Add a number</button>
     <ul>
       <li v-for="number in numbers" v-on:click="update(number.phone_number)">
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
