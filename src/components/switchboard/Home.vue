@@ -4,7 +4,6 @@
       Switchboard
       <button class="pull-right" v-on:click="create">Add a number</button>
     </h1>
-    <p v-if="errorMessage" class="alert">{{ errorMessage }}</p>
     <ul>
       <li v-for="number in numbers" v-on:click="update(number.phone_number)">
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
@@ -16,16 +15,18 @@
 </template>
 
 <script>
-  import { mapGetters, mapActions } from 'vuex'
+  import { mapGetters } from 'vuex'
   export default {
     computed: mapGetters({
       numbers: 'allNumbers',
-      myInfo: 'name',
+      myInfo: {
+        name: 'name'
+      },
       canSeeNumbers: 'canSeeNumbers',
       canManageNumbers: 'canManageNumbers',
       canManageMessages: 'canManageMessages',
       canOverrideSingIn: 'canOverrideSingIn',
-      canChangePriority: 'canChangePriority',
+      canChangePriority: 'canChangePriority'
     }),
     methods: {
       create: function () {
