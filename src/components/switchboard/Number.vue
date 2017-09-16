@@ -6,59 +6,49 @@
       <form v-on:submit="addUpdate">
         <div>
           <label for="phone_number">Phone number</label>
-          <input type="text" id="phone_number" v-model="entity.phone_number"/>
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input type="password" id="password" v-model="entity.password"/>
-        </div>
-        <div>
-          <label for="confirm_password">Confirm password</label>
-          <input type="password" id="confirm_password" v-model="entity.confirm_password"/>
+          <input type="text" id="phone_number" v-model="number.phone_number"/>
         </div>
         <div>
           <label for="name">Name</label>
-          <input type="text" id="name" v-model="entity.name"/>
+          <input type="text" id="name" v-model="number.name"/>
         </div>
         <div>
-          <label for="can_manage_switchboard">
-            <input type="checkbox" id="can_manage_switchboard" v-model="entity.can_manage_switchboard"/>
-            Can manage switchboard numbers?
-          </label>
+          <label for="role">Role</label>
+          <select id="role" v-model="number.role_id">
+            <option value="0">Admin</option>
+            <option value="1">SuperAdmin</option>
+            <option value="2">User</option>
+          </select>
         </div>
         <div>
           <label for="timezone">Timezone</label>
-          <select id="timezone" v-model="entity.timezone">
+          <select id="timezone" v-model="number.timezone">
             <option value="America/New_York">America/New York</option>
             <option value="Europe/London">Europe/London</option>
             <option value="Asia/Singapore">Asia/Singapore</option>
           </select>
         </div>
-        <div v-if="entity.schedule !== '4'">
+        <div v-if="number.schedule !== '4'">
           <label for="start_time">Start time</label>
-          <input type="time" id="start_time" v-model="entity.start_time">
+          <input type="time" id="start_time" v-model="number.start_time">
         </div>
-        <div v-if="entity.schedule !== '4'">
+        <div v-if="number.schedule !== '4'">
           <label for="end_time">End time</label>
-          <input type="time" id="end_time" v-model="entity.end_time">
+          <input type="time" id="end_time" v-model="number.end_time">
         </div>
         <div>
-          <label for="days">Schedule</label>
-          <select id="days" v-model="entity.schedule">
-            <option value="1">Every day</option>
-            <option value="2">Every work day</option>
-            <option value="3">Selective days</option>
-            <option value="4">Do not schedule</option>
-          </select>
-        </div>
-        <div v-if="entity.schedule === '3'">
-          <label for="monday"><input type="checkbox" id="monday" v-model="entity.days"/>Monday</label>
-          <label for="tuesday"><input type="checkbox" id="tuesday" v-model="entity.days"/>Tuesday</label>
-          <label for="wednesday"><input type="checkbox" id="wednesday" v-model="entity.days"/>Wednesday</label>
-          <label for="thursday"><input type="checkbox" id="thursday" v-model="entity.days"/>Thursday</label>
-          <label for="friday"><input type="checkbox" id="friday" v-model="entity.days"/>Friday</label>
-          <label for="saturday"><input type="checkbox" id="saturday" v-model="entity.days"/>Saturday</label>
-          <label for="sunday"><input type="checkbox" id="sunday" v-model="entity.days"/>Sunday</label>
+          <label for="is-daily">
+            <input type="radio" name="schedule" v-model="number.is_daily" id="is-daily">
+            Daily
+          </label>
+          <label for="week-days">
+            <input type="radio" name="schedule" v-model="number.is_weekday" id="week-days">
+            Week days
+          </label>
+          <label for="not-active">
+            <input type="radio" name="schedule" v-model="number.is_not_active" id="not-active">
+            Not active
+          </label>
         </div>
         <button type="submit">Save</button>
         <button type="button" v-on:click="goToHome">Cancel</button>
@@ -80,7 +70,7 @@
       console.log(this.phone_number)
       return {
         title: '',
-        entity: {
+        number: {
           phone_number: '',
           password: '',
           confirm_password: '',
@@ -102,11 +92,11 @@
         this.loading = true
         this.$http.get(`/number/${phoneNumber}`).then(data => {
           this.loading = false
-          this.entity = data
+          this.number = data
         }).catch(error => {
           this.loading = false
           console.log(error)
-          this.entity = {
+          this.number = {
             phone_number: '+34343434',
             password: '',
             confirm_password: '',
@@ -122,14 +112,14 @@
       },
       addUpdate: function () {
         if (this.phone_number) {
-          this.$http.post(`/number/${this.phone_number}`, this.entity)
+          this.$http.post(`/number/${this.phone_number}`, this.number)
             .then(() => this.goToHome())
             .catch(error => {
               console.log(error)
             })
           return
         }
-        this.$http.post('/number', this.entity)
+        this.$http.post('/number', this.number)
           .then(() => this.goToHome())
           .catch(error => {
             console.log(error)

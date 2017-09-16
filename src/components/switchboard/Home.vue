@@ -1,60 +1,37 @@
 <template>
   <div class="home">
     <h1>
-      {{ title }}
+      Switchboard
       <button class="pull-right" v-on:click="create">Add a number</button>
     </h1>
     <p v-if="errorMessage" class="alert">{{ errorMessage }}</p>
     <ul>
-      <li v-for="entity in entities" v-on:click="update(entity.phone_number)">
-        <span :class="entity.status" class="status" v-on:click.stop.prevent="signInOut"></span>
-        <span>{{ entity.name }}</span>
-        <span>{{ entity.phone_number }}</span>
+      <li v-for="number in numbers" v-on:click="update(number.phone_number)">
+        <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
+        <span>{{ number.name }}</span>
+        <span>{{ number.phone_number }}</span>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+  import { mapGetters, mapActions } from 'vuex'
   export default {
-    name: 'home',
-    data () {
-      return {
-        title: 'EA-switchboard',
-        entities: [],
-        errorMessage: ''
-      }
-    },
+    computed: mapGetters({
+      numbers: 'allNumbers',
+      myInfo: 'name',
+      canSeeNumbers: 'canSeeNumbers',
+      canManageNumbers: 'canManageNumbers',
+      canManageMessages: 'canManageMessages',
+      canOverrideSingIn: 'canOverrideSingIn',
+      canChangePriority: 'canChangePriority',
+    }),
     methods: {
-      list: function () {
-        this.loading = true
-        this.$http.get('/number').then(response => {
-          this.entities = response
-          this.loading = false
-        }).catch(error => {
-          this.loading = false
-          this.errorMessage = error.statusText
-          this.entities = [{
-            status: 'active',
-            phone_number: '+34343434',
-            password: '',
-            confirm_password: '',
-            name: 'Sarah howell',
-            can_manage_switchboard: true,
-            timezone: 'Europe/London',
-            schedule: '1',
-            days: [],
-            start_time: '09:00',
-            end_time: '18:00'
-          }]
-          console.log(error)
-        })
-      },
       create: function () {
         this.$router.push({
           name: 'number.create',
           params: {
-            title: 'Add new number to switchboard',
             phone_number: ''
           }
         })
@@ -69,18 +46,13 @@
       },
       signInOut: function () {
         if (confirm('Are you sure you want to sign in?') === true) {
-          this.$http.post('/signin')
-            .then(() => {
 
-            })
-            .catch(error => {
-              console.log(error)
-            })
         }
       }
     },
     created () {
-      this.list()
+      this.$store.dispatch('whoAmI')
+      this.$store.dispatch('getAllNumbers')
     }
   }
 </script>
