@@ -9,8 +9,17 @@
       </div>
       <div>
         <ul>
+          <li v-on:click="goToHome">
+            Home
+          </li>
           <li v-on:click="create">
             Add new number
+          </li>
+          <li>
+            Call routing options
+          </li>
+          <li>
+            Manage speak messages
           </li>
         </ul>
       </div>
@@ -26,6 +35,10 @@
       }
     },
     methods: {
+      goToHome: function () {
+        this.$router.push({name: 'number.index'})
+        this.expand = false
+      },
       expandSideBar: function () {
         this.expand = !this.expand
       },
@@ -45,6 +58,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  i.fa {
+    cursor: pointer;
+  }
   #sidebar {
     position: fixed;
     height: 100%;
@@ -66,6 +82,10 @@
   }
   ul > li {
     padding: 10px;
+    border-bottom: 1px solid #117393;
+  }
+  ul > li:last-of-type {
+    border-bottom: none;
   }
   ul > li:hover {
     background: #e7e5e4;

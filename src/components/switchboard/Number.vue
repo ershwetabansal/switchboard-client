@@ -133,7 +133,9 @@
   .form-group {
     margin-bottom: 5px;
   }
-
+  select {
+    cursor: pointer;
+  }
   input[type="text"], input[type="time"], select {
     width: 100%;
     height: 3em;
@@ -151,6 +153,7 @@
   }
   #schedule input[type="time"] {
     width: 15%;
+    cursor: text;
   }
   #schedule label {
     display: inline-block;
