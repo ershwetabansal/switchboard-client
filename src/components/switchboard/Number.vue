@@ -176,7 +176,7 @@
     right: -7px;
     color: #767675;
     padding: 2px;
-    border: 1px solid #dfdddc;
-    box-shadow: 0 4px 9px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid #d9d7d5;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
   }
 </style>

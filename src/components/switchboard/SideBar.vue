@@ -1,28 +1,24 @@
 <template>
   <div id="sidebar" v-bind:class="{ expanded: expand }">
-    <div v-if="!expand">
-      <i class="fa fa-bars" aria-hidden="true" v-on:click="expandSideBar"></i>
+    <div style="margin-bottom: 5px;">
+      <i class="fa fa-bars" aria-hidden="true" v-on:click="expandSideBar" v-if="!expand"></i>
+      <i class="fa fa-times" aria-hidden="true" v-on:click="expandSideBar" v-if="expand"></i>
     </div>
     <div v-if="expand">
-      <div>
-        <i class="fa fa-times" aria-hidden="true" v-on:click="expandSideBar"></i>
-      </div>
-      <div>
-        <ul>
-          <li v-on:click="goToHome">
-            Home
-          </li>
-          <li v-on:click="create">
-            Add new number
-          </li>
-          <li>
-            Call routing options
-          </li>
-          <li>
-            Manage speak messages
-          </li>
-        </ul>
-      </div>
+      <ul>
+        <li v-on:click="goToHome">
+          Home
+        </li>
+        <li v-on:click="create">
+          Add new number
+        </li>
+        <li>
+          Call routing options
+        </li>
+        <li>
+          Manage speak messages
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -64,9 +60,11 @@
   #sidebar {
     position: fixed;
     height: 100%;
+    width: 42px;
     padding: 15px;
     background: #076685;
     color: white;
+    /*transition: width 0.3s ease-in-out;*/
   }
   #sidebar.expanded {
     width: 200px;
