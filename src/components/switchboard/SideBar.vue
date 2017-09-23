@@ -33,7 +33,7 @@
         this.$router.push({
           name: 'number.create',
           params: {
-            phone_number: ''
+            id: ''
           }
         })
         this.expand = false

@@ -3,7 +3,7 @@
     <ul>
       <li v-for="number in numbers" >
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
-        <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number.id)"></i>
+        <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number)"></i>
         <label>
           {{ number.name }}
         </label>
@@ -43,12 +43,11 @@
           }
         })
       },
-      update: function (id) {
+      update: function (number) {
+        this.$store.dispatch('setCurrentNumber', number)
         this.$router.push({
           name: 'number.edit',
-          params: {
-            id
-          }
+          params: { id: number.id.toString() }
         })
       },
       signInOut: function () {
@@ -113,5 +112,6 @@
   li label {
     min-width: 25%;
     display: inline-block;
+    cursor: move;
   }
 </style>

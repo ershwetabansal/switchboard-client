@@ -5,13 +5,22 @@ import mockedNumbers from '../../supports/sample-numbers.js'
 // initial state
 const state = {
   numbers: [],
+  number: {
+    phone_number: '',
+    name: '',
+    timezone: 'Europe/London',
+    start_time: '09:00',
+    end_time: '18:00',
+    schedule: 'weekday'
+  },
   failureMessage: '',
   successMessage: ''
 }
 
 // getters
 const getters = {
-  allNumbers: state => state.numbers
+  allNumbers: state => state.numbers,
+  currentNumber: state => state.number
 }
 
 // actions
@@ -22,6 +31,15 @@ const actions = {
       .then(numbers => commit(types.GET_NUMBERS_SUCCESS, numbers))
       .catch(error => commit(types.GET_NUMBERS_FAILURE, error))
   },
+  getNumber ({ commit }, id) {
+    commit(types.GET_NUMBER_REQUEST)
+    axios.get(`api/number/${id}`)
+      .then(number => commit(types.GET_NUMBER_SUCCESS))
+      .catch(() => commit(types.GET_NUMBER_FAILURE, id))
+  },
+  setCurrentNumber ({ commit }, number) {
+    commit(types.SET_CURRENT_NUMBER_REQUEST, number)
+  },
   addNumber ({ commit }, number) {
     commit(types.ADD_NUMBER_REQUEST)
     axios.post('api/number', number)
@@ -30,7 +48,7 @@ const actions = {
   },
   updateNumber ({ commit }, number) {
     commit(types.UPDATE_NUMBER_REQUEST)
-    axios.post(`api/number/${number.phone_number}`, number)
+    axios.post(`api/number/${number.id}`, number)
       .then(() => commit(types.UPDATE_NUMBER_SUCCESS, number))
       .catch(() => commit(types.UPDATE_NUMBER_FAILURE))
   },
@@ -55,6 +73,23 @@ const mutations = {
     console.log(state)
     state.failureMessage = 'Failed to get all numbers. Please contact admin'
     state.numbers = mockedNumbers
+  },
+  [types.SET_CURRENT_NUMBER_REQUEST] (state, number) {
+    state.number = number
+  },
+  [types.GET_NUMBER_REQUEST] (state) {
+    state.failureMessage = ''
+    state.successMessage = ''
+  },
+  [types.GET_NUMBER_SUCCESS] (state, number) {
+    state.number = number
+  },
+  [types.GET_NUMBER_FAILURE] (state, id) {
+    console.log(id)
+    state.failureMessage = 'Failed to get all numbers. Please contact admin'
+    const index = id <= 4 ? (id - 1) : 0
+    console.log(index)
+    state.number = mockedNumbers[index]
   },
   [types.ADD_NUMBER_REQUEST] (state) {
     state.failureMessage = ''
