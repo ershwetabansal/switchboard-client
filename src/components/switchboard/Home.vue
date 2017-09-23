@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <button class="pull-right" v-on:click="create">Add a number</button>
     <ul>
       <li v-for="number in numbers" v-on:click="update(number.phone_number)">
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
         <span>{{ number.name }}</span>
         <span>{{ number.phone_number }}</span>
+        <span>{{ number.start_time }} {{ number.end_time }} ({{ number.timezone }})</span>
       </li>
     </ul>
   </div>
@@ -49,7 +49,7 @@
       }
     },
     created () {
-      this.$store.dispatch('whoAmI')
+//      this.$store.dispatch('whoAmI')
       this.$store.dispatch('getAllNumbers')
     }
   }
@@ -64,12 +64,16 @@
   ul {
     list-style-type: none;
     padding: 0;
+    width: 50%;
+    margin: 0 auto;
   }
 
   li {
-    display: inline-block;
-    margin: 0 10px;
+    padding: 2em;
+    background: #450b0b;
     line-height: 25px;
+    margin-bottom: 10px;
+    opacity: 0.8;
   }
 
   .status {

@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import axios from 'axios'
+import mockedNumbers from '../../supports/sample-numbers.js'
 
 // initial state
 const state = {
@@ -19,7 +20,7 @@ const actions = {
     commit(types.GET_NUMBERS_REQUEST)
     axios.get('api/number')
       .then(numbers => commit(types.GET_NUMBERS_SUCCESS, numbers))
-      .then(error => commit(types.GET_NUMBERS_FAILURE, error))
+      .catch(error => commit(types.GET_NUMBERS_FAILURE, error))
   },
   addNumber ({ commit }, number) {
     commit(types.ADD_NUMBER_REQUEST)
@@ -51,7 +52,9 @@ const mutations = {
     state.numbers = numbers
   },
   [types.GET_NUMBERS_FAILURE] (state) {
+    console.log(state)
     state.failureMessage = 'Failed to get all numbers. Please contact admin'
+    state.numbers = mockedNumbers
   },
   [types.ADD_NUMBER_REQUEST] (state) {
     state.failureMessage = ''
