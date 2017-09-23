@@ -1,40 +1,35 @@
 <template>
-  <div class="number">
-    <h1 v-if="phone_number">Update switchboard number {{ phone_number }}</h1>
-    <h1 v-else>Add a number to switchboard</h1>
+  <div id="number">
+    <!--<h1 v-if="phone_number">Update switchboard number {{ phone_number }}</h1>-->
+    <!--<h1 v-else>Add a number to switchboard</h1>-->
     <div class="form">
       <form v-on:submit="saveChanges">
         <div>
-          <label for="phone_number">Phone number</label>
-          <input type="text" id="phone_number" v-model="number.phone_number"/>
+          <label for="phone_number" class="sr-only">Phone number</label>
+          <input type="text" id="phone_number" v-model="number.phone_number" placeholder="+44 8989898989"/>
         </div>
         <div>
-          <label for="name">Name</label>
+          <label for="name" class="sr-only">Name</label>
           <input type="text" id="name" v-model="number.name"/>
         </div>
         <div>
-          <label for="role">Role</label>
+          <label for="role" class="sr-only">Role</label>
           <select id="role" v-model="number.role_id">
             <option value="0">Admin</option>
             <option value="1">SuperAdmin</option>
             <option value="2">User</option>
           </select>
         </div>
-        <div>
-          <label for="timezone">Timezone</label>
+        <div v-if="number.schedule !== '4'" id="schedule">
+          <input type="time" id="start_time" v-model="number.start_time">
+          <label>to</label>
+          <input type="time" id="end_time" v-model="number.end_time">
+          <label>in</label>
           <select id="timezone" v-model="number.timezone">
             <option value="America/New_York">America/New York</option>
             <option value="Europe/London">Europe/London</option>
             <option value="Asia/Singapore">Asia/Singapore</option>
           </select>
-        </div>
-        <div v-if="number.schedule !== '4'">
-          <label for="start_time">Start time</label>
-          <input type="time" id="start_time" v-model="number.start_time">
-        </div>
-        <div v-if="number.schedule !== '4'">
-          <label for="end_time">End time</label>
-          <input type="time" id="end_time" v-model="number.end_time">
         </div>
         <div>
           <label for="is-daily">
@@ -127,5 +122,59 @@
 
   a {
     color: #42b983;
+  }
+  h1 {
+    text-align: center;
+  }
+
+  .form {
+    background: #ffffff;
+    padding: 2em;
+    width: 50%;
+    margin: 0 auto;
+    opacity: 0.8;
+  }
+  input, select {
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    background: #ddf4fc;
+  }
+  input[type="text"], input[type="time"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    padding: 3px 10px;
+  }
+  select {
+    position: relative;
+    height: 40px;
+    width: 100%;
+    border-radius: 0;
+    -webkit-appearance: none;
+    padding: 3px 10px;
+    border: none;
+  }
+  select::after {
+    content: '';
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: black;
+  }
+
+  #schedule input[type="time"] {
+    width: 15%;
+  }
+  #schedule label {
+    display: inline-block;
+    width: 3%;
+    text-align: center;
+  }
+  #schedule select {
+    width: 61%;
+  }
+  .sr-only {
+    display: none;
   }
 </style>

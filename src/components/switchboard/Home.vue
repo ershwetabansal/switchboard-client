@@ -1,11 +1,12 @@
 <template>
   <div class="home">
     <ul>
-      <li v-for="number in numbers" v-on:click="update(number.phone_number)">
+      <li v-for="number in numbers" >
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
         <span>{{ number.name }}</span>
         <span>{{ number.phone_number }}</span>
         <span>{{ number.start_time }} {{ number.end_time }} ({{ number.timezone }})</span>
+        <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number.phone_number)"></i>
       </li>
     </ul>
   </div>
@@ -69,13 +70,22 @@
   }
 
   li {
-    padding: 2em;
-    background: #450b0b;
-    line-height: 25px;
-    margin-bottom: 10px;
+    padding: 1.5em;
+    background: white;
+    margin-bottom: 20px;
     opacity: 0.8;
+    cursor: move;
   }
 
+  li .fa-pencil {
+    display: none;
+  }
+  li:hover .fa-pencil {
+    float: right;
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 5px;
+  }
   .status {
     float: left;
     width: 15px;

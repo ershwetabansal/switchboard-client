@@ -1,20 +1,34 @@
 <template>
-  <div class="sidebar">
-    <div class="hide-on-hover">
-      <i class="fa fa-bars" aria-hidden="true"></i>
+  <div id="sidebar" v-bind:class="{ expanded: expand }">
+    <div v-if="!expand">
+      <i class="fa fa-bars" aria-hidden="true" v-on:click="expandSideBar"></i>
     </div>
-    <div class="show-on-hover">
-      <button v-on:click="create">
-        <i class="fa fa-plus" aria-hidden="true"></i>
-        Add new number
-      </button>
+    <div v-if="expand">
+      <div>
+        <i class="fa fa-times" aria-hidden="true" v-on:click="expandSideBar"></i>
+      </div>
+      <div>
+        <ul>
+          <li v-on:click="create">
+            Add new number
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
+    data () {
+      return {
+        expand: false
+      }
+    },
     methods: {
+      expandSideBar: function () {
+        this.expand = !this.expand
+      },
       create: function () {
         this.$router.push({
           name: 'number.create',
@@ -22,6 +36,7 @@
             phone_number: ''
           }
         })
+        this.expand = false
       }
     }
   }
@@ -29,31 +44,31 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .sidebar {
+  #sidebar {
     position: fixed;
     height: 100%;
-    width: 50px;
-    background: #450b0b;
-    padding-top: 12px;
-    text-align: center;
-    transition: width 0.3s;
+    padding: 15px;
+    background: #076685;
+    color: white;
   }
-  .sidebar .show-on-hover {
-    display: none;
-  }
-  .sidebar:hover {
+  #sidebar.expanded {
     width: 200px;
   }
-  .sidebar:hover .hide-on-hover{
-    display: none;
+
+  #sidebar > div > div {
+    margin-bottom: 10px;
   }
-  .sidebar:hover .show-on-hover {
-    display: block;
+  ul {
+    padding-left: 0;
+    list-style-type: none;
+    margin: 0 -15px;
   }
-  button {
-    /*background: transparent;*/
-    /*border: 0;*/
+  ul > li {
+    padding: 10px;
+  }
+  ul > li:hover {
+    background: #e7e5e4;
     color: black;
-    outline: 0;
+    cursor: pointer;
   }
 </style>

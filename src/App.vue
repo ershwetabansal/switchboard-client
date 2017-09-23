@@ -3,12 +3,10 @@
     <div class="content">
       <side-bar></side-bar>
       <div class="main">
-        <h1>Switchboard</h1>
         <router-view></router-view>
       </div>
     </div>
     <div class="background"></div>
-    <div class="overlay"></div>
   </div>
 </template>
 
@@ -24,12 +22,15 @@
 body {
   margin: 0;
 }
+* {
+  box-sizing: border-box;
+}
 #app {
   position: relative;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Helvetica,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: white;
+  color: #333333;
   height: 100vh;
 }
 
@@ -46,22 +47,22 @@ h1 {
   position: absolute;
   height: 100%;
   width: 100%;
-  filter: grayscale(81%) blur(3px);
   z-index: 1;
   top: 0;
   left: 0;
-  background: url(/static/images/switchboard-background.jpg);
-  -webkit-background-size: cover;
-  background-size: cover;
+  background: #e7e5e4;
 }
-.overlay {
-  position: absolute;
-  background: black;
-  height: 100%;
-  width: 100%;
-  opacity: 0.5;
-  z-index: 2;
-  top: 0;
-  left: 0;
+button {
+  height: 40px;
+  padding: 0 30px;
+  background: #076685;
+  color: white;
+  border: 0;
+  outline: none;
+  cursor: pointer;
 }
+
+  .main {
+    padding-top: 4em;
+  }
 </style>
