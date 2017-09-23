@@ -57,8 +57,8 @@ const actions = {
   changePriority ({ commit }, numbers) {
     commit(types.CHANGE_PRIORITY_REQUEST)
     axios.post('api/number/priority', numbers)
-      .then(() => commit(types.CHANGE_PRIORITY_SUCCESS))
-      .catch(() => commit(types.CHANGE_PRIORITY_FAILURE))
+      .then(() => commit(types.CHANGE_PRIORITY_SUCCESS, numbers))
+      .catch(() => commit(types.CHANGE_PRIORITY_FAILURE, numbers))
   }
 }
 
@@ -118,6 +118,17 @@ const mutations = {
   },
   [types.UPDATE_NUMBER_FAILURE] (state) {
     state.failureMessage = 'Failed to UPDATE new number.'
+  },
+  [types.CHANGE_PRIORITY_REQUEST] (state) {
+    state.failureMessage = ''
+    state.successMessage = ''
+  },
+  [types.CHANGE_PRIORITY_SUCCESS] (state, numbers) {
+    state.successMessage = `Updated the priorities.`
+    state.numbers = numbers
+  },
+  [types.CHANGE_PRIORITY_FAILURE] (state, numbers) {
+    state.numbers = numbers
   }
 }
 

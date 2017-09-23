@@ -1,7 +1,7 @@
 <template>
-  <div class="home">
-    <ul>
-      <li v-for="number in numbers" >
+  <div id="home">
+    <draggable v-model="numbers" :options="{draggable:'.item'}">
+      <div v-for="number in numbers" :key="number.id" class="item">
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
         <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number)"></i>
         <label>
@@ -15,25 +15,29 @@
           <i class="fa fa-clock-o" aria-hidden="true"></i>
           {{ number.start_time }} to {{ number.end_time }} <em>({{ number.timezone.replace('_', ' ') }})</em>
         </label>
-      </li>
-    </ul>
+      </div>
+    </draggable>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
+  import draggable from 'vuedraggable'
+
   export default {
-    computed: mapGetters({
-      numbers: 'allNumbers',
-      myInfo: {
-        name: 'name'
-      },
-      canSeeNumbers: 'canSeeNumbers',
-      canManageNumbers: 'canManageNumbers',
-      canManageMessages: 'canManageMessages',
-      canOverrideSingIn: 'canOverrideSingIn',
-      canChangePriority: 'canChangePriority'
-    }),
+    components: {
+      draggable
+    },
+    computed: {
+      numbers: {
+        get () {
+          return this.$store.state.numbers.numbers
+        },
+        set (value) {
+          console.log(value)
+          this.$store.dispatch('changePriority', value)
+        }
+      }
+    },
     methods: {
       create: function () {
         this.$router.push({
@@ -65,14 +69,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  ul {
-    list-style-type: none;
+  #home {
     padding: 0;
     width: 50%;
     margin: 0 auto;
   }
 
-  li {
+  .item {
     padding: 1.5em;
     background: white;
     margin-bottom: 20px;
@@ -80,11 +83,11 @@
     cursor: move;
   }
 
-  li .fa-pencil {
+  .item .fa-pencil {
     display: none;
   }
 
-  li:hover .fa-pencil {
+  .item:hover .fa-pencil {
     float: right;
     display: inline-block;
     cursor: pointer;
@@ -109,7 +112,7 @@
     background: lightgrey;
   }
 
-  li label {
+  .item label {
     min-width: 25%;
     display: inline-block;
     cursor: move;
