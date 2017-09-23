@@ -18,7 +18,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/number/:phone_number',
+      path: '/number/:id',
       name: 'number.edit',
       component: Number,
       props: true

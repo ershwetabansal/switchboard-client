@@ -3,10 +3,18 @@
     <ul>
       <li v-for="number in numbers" >
         <span :class="number.status" class="status" v-on:click.stop.prevent="signInOut"></span>
-        <span>{{ number.name }}</span>
-        <span>{{ number.phone_number }}</span>
-        <span>{{ number.start_time }} {{ number.end_time }} ({{ number.timezone }})</span>
-        <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number.phone_number)"></i>
+        <i class="fa fa-pencil" aria-hidden="true" v-on:click="update(number.id)"></i>
+        <label>
+          {{ number.name }}
+        </label>
+        <label>
+          <i class="fa fa-phone" aria-hidden="true"></i>
+          {{ number.phone_number }}
+        </label>
+        <label>
+          <i class="fa fa-clock-o" aria-hidden="true"></i>
+          {{ number.start_time }} to {{ number.end_time }} <em>({{ number.timezone.replace('_', ' ') }})</em>
+        </label>
       </li>
     </ul>
   </div>
@@ -35,11 +43,11 @@
           }
         })
       },
-      update: function (phoneNumber) {
+      update: function (id) {
         this.$router.push({
           name: 'number.edit',
           params: {
-            phone_number: phoneNumber
+            id
           }
         })
       },
@@ -58,10 +66,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1, h2 {
-    font-weight: normal;
-  }
-
   ul {
     list-style-type: none;
     padding: 0;
@@ -80,26 +84,34 @@
   li .fa-pencil {
     display: none;
   }
+
   li:hover .fa-pencil {
     float: right;
     display: inline-block;
     cursor: pointer;
     padding: 0 5px;
   }
+
   .status {
     float: left;
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    margin-top: 4px;
+    margin-top: 1px;
     margin-right: 10px;
+    cursor: pointer;
   }
 
   .status.active {
-    background: green;
+    background: #076685;
   }
 
-  .status.inactive {
+  .status.off {
     background: lightgrey;
+  }
+
+  li label {
+    min-width: 25%;
+    display: inline-block;
   }
 </style>

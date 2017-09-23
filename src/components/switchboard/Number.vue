@@ -10,11 +10,12 @@
         </div>
         <div>
           <label for="name" class="sr-only">Name</label>
-          <input type="text" id="name" v-model="number.name"/>
+          <input type="text" id="name" v-model="number.name" placeholder="Joe Bloggs"/>
         </div>
         <div>
           <label for="role" class="sr-only">Role</label>
           <select id="role" v-model="number.role_id">
+            <option value="" selected disabled>--Select a role--</option>
             <option value="0">Admin</option>
             <option value="1">SuperAdmin</option>
             <option value="2">User</option>
@@ -31,14 +32,14 @@
             <option value="Asia/Singapore">Asia/Singapore</option>
           </select>
         </div>
-        <div>
-          <label for="is-daily">
-            <input type="radio" name="schedule" v-model="number.is_daily" id="is-daily">
-            Daily
-          </label>
+        <div id="schedule-frequency">
           <label for="week-days">
             <input type="radio" name="schedule" v-model="number.is_weekday" id="week-days">
             Week days
+          </label>
+          <label for="is-daily">
+            <input type="radio" name="schedule" v-model="number.is_daily" id="is-daily">
+            Daily
           </label>
           <label for="not-active">
             <input type="radio" name="schedule" v-model="number.is_not_active" id="not-active">
@@ -66,12 +67,13 @@
       return {
         number: {
           phone_number: '',
-          password: '',
-          confirm_password: '',
           name: '',
           timezone: 'Europe/London',
           start_time: '09:00',
-          end_time: '18:00'
+          end_time: '18:00',
+          is_daily: false,
+          is_weekday: true,
+          is_not_active: false
         }
       }
     },
@@ -79,8 +81,8 @@
       ...mapGetters({
         numbers: 'allNumbers'
       }),
-      getNumberDetails: (phoneNumber) => {
-        const filteredNumbers = this.numbers.filter(number => number.phone_number === phoneNumber)
+      getNumberDetails: (id) => {
+        const filteredNumbers = this.numbers.filter(number => number.id === id)
         return filteredNumbers.length === 1 ? filteredNumbers[0] : null
       }
     },
@@ -129,40 +131,27 @@
 
   .form {
     background: #ffffff;
-    padding: 2em;
+    padding: 3.5em;
     width: 50%;
     margin: 0 auto;
     opacity: 0.8;
   }
-  input, select {
-    margin-bottom: 30px;
-    font-size: 1.1em;
-    background: #ddf4fc;
-  }
-  input[type="text"], input[type="time"] {
+  input[type="text"], input[type="time"], select {
     width: 100%;
-    height: 40px;
+    height: 3em;
     border: none;
     outline: none;
     padding: 3px 10px;
-  }
-  select {
-    position: relative;
-    height: 40px;
-    width: 100%;
     border-radius: 0;
     -webkit-appearance: none;
-    padding: 3px 10px;
-    border: none;
-  }
-  select::after {
-    content: '';
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    background: black;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    background: #ddf4fc;
   }
 
+  #schedule, #schedule-frequency {
+    margin-bottom: 20px;
+  }
   #schedule input[type="time"] {
     width: 15%;
   }
@@ -172,9 +161,13 @@
     text-align: center;
   }
   #schedule select {
-    width: 61%;
+    width: 60%;
+    float: right;
   }
   .sr-only {
     display: none;
+  }
+  button {
+    margin-right: 5px;
   }
 </style>

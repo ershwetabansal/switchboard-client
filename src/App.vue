@@ -21,10 +21,11 @@ body {
 }
 * {
   box-sizing: border-box;
+  font-family: 'Roboto',sans-serif;
+  font-size: 14px;
 }
 #app {
   position: relative;
-  font-family: Helvetica,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #333333;
