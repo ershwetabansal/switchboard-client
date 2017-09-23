@@ -30,6 +30,7 @@
         this.expand = !this.expand
       },
       create: function () {
+        this.$store.dispatch('setCurrentNumber')
         this.$router.push({
           name: 'number.create',
           params: {

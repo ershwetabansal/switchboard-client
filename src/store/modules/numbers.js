@@ -2,17 +2,19 @@ import * as types from '../mutation-types'
 import axios from 'axios'
 import mockedNumbers from '../../supports/sample-numbers.js'
 
+const number = {
+  phone_number: '',
+  name: '',
+  timezone: 'Europe/London',
+  start_time: '09:00',
+  end_time: '18:00',
+  schedule: 'weekday'
+}
+
 // initial state
 const state = {
   numbers: [],
-  number: {
-    phone_number: '',
-    name: '',
-    timezone: 'Europe/London',
-    start_time: '09:00',
-    end_time: '18:00',
-    schedule: 'weekday'
-  },
+  number,
   failureMessage: '',
   successMessage: ''
 }
@@ -74,7 +76,10 @@ const mutations = {
     state.failureMessage = 'Failed to get all numbers. Please contact admin'
     state.numbers = mockedNumbers
   },
-  [types.SET_CURRENT_NUMBER_REQUEST] (state, number) {
+  [types.SET_CURRENT_NUMBER_REQUEST] (state, currentNumber) {
+    if (currentNumber) {
+      state.number = currentNumber
+    }
     state.number = number
   },
   [types.GET_NUMBER_REQUEST] (state) {
