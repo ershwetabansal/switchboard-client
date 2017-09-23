@@ -1,12 +1,9 @@
 <template>
   <div id="app">
-    <div class="content">
-      <side-bar></side-bar>
-      <div class="main">
-        <router-view></router-view>
-      </div>
+    <side-bar></side-bar>
+    <div class="main">
+      <router-view></router-view>
     </div>
-    <div class="background"></div>
   </div>
 </template>
 
@@ -32,24 +29,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #333333;
   height: 100vh;
-}
-
-h1 {
-  text-align: center;
-}
-.content {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 3;
-}
-.background {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  z-index: 1;
-  top: 0;
-  left: 0;
   background: #e7e5e4;
 }
 button {
