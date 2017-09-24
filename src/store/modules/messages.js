@@ -1,5 +1,6 @@
 import * as types from '../mutation-types'
 import axios from 'axios'
+import mockedMessages from '../../supports/sample-messages.js'
 
 const state = {
   successMessage: '',
@@ -54,6 +55,7 @@ const mutations = {
 
   [types.GET_ALL_MESSAGES_FAILURE] (state) {
     state.failureMessage = 'Failed to get messages'
+    state.messages = mockedMessages
   }
 }
 

@@ -114,40 +114,6 @@
     display: inline-block;
     margin: 0 10px;
   }
-
-  a {
-    color: #42b983;
-  }
-  h1 {
-    text-align: center;
-  }
-
-  .form {
-    position: relative;
-    background: #ffffff;
-    padding: 3.5em;
-    width: 50%;
-    margin: 0 auto;
-    opacity: 0.8;
-  }
-  .form-group {
-    margin-bottom: 5px;
-  }
-  select {
-    cursor: pointer;
-  }
-  input[type="text"], input[type="time"], select {
-    width: 100%;
-    height: 3em;
-    border: none;
-    outline: none;
-    padding: 3px 10px;
-    border-radius: 0;
-    -webkit-appearance: none;
-    font-size: 1.1em;
-    background: #ddf4fc;
-  }
-
   #schedule, #schedule-frequency {
     margin-bottom: 20px;
   }
@@ -170,13 +136,5 @@
   button {
     margin-right: 5px;
   }
-  .title {
-    position: absolute;
-    top: -21px;
-    right: -7px;
-    color: #767675;
-    padding: 2px;
-    border: 1px solid #d9d7d5;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.1);
-  }
+
 </style>

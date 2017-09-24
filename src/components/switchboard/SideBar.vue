@@ -15,7 +15,7 @@
         <li>
           Call routing options
         </li>
-        <li>
+        <li v-on:click="goToMessages">
           Manage speak messages
         </li>
       </ul>
@@ -33,6 +33,10 @@
     methods: {
       goToHome: function () {
         this.$router.push({name: 'number.index'})
+        this.expand = false
+      },
+      goToMessages: function () {
+        this.$router.push({name: 'messages.index'})
         this.expand = false
       },
       expandSideBar: function () {

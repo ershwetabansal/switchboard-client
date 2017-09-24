@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/switchboard/Home'
 import Number from '@/components/switchboard/Number'
+import Message from '@/components/switchboard/Message'
 
 Vue.use(Router)
 
@@ -27,6 +28,11 @@ export default new Router({
       path: '/number',
       name: 'number.create',
       component: Number
+    },
+    {
+      path: '/messages',
+      name: 'messages.index',
+      component: Message
     }
   ]
 })
